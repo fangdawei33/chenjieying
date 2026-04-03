@@ -90,13 +90,21 @@ function pickFloatingXY(isMobile, idx) {
         { top: '72vh', left: '16vw' }, { top: '72vh', left: '70vw' }, { top: '40vh', left: '10vw' },
         { top: '40vh', left: '76vw' }
     ];
-    return anchors[idx % anchors.length];
+    var base = anchors[idx % anchors.length];
+    var layer = Math.floor(idx / anchors.length);
+    var topN = parseFloat(base.top);
+    var leftN = parseFloat(base.left);
+    var jitterTop = (layer % 4) * 1.2;
+    var jitterLeft = ((layer % 3) - 1) * 1.6;
+    var finalTop = Math.min(96, Math.max(4, topN + jitterTop));
+    var finalLeft = Math.min(92, Math.max(4, leftN + jitterLeft));
+    return { top: finalTop + 'vh', left: finalLeft + 'vw' };
 }
 function init(){
     let container = document.querySelector('.container');
     let f = document.createDocumentFragment();
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    const activeWords = isMobile ? words.slice(0, 28) : words;
+    const activeWords = isMobile ? words.slice(0, 56) : words;
     container.innerHTML = '';
     activeWords.forEach((w, idx)=>{
     let word_box = document.createElement('div');
@@ -126,7 +134,7 @@ let textone = document.querySelector('.textone').querySelector('h1');
       let textthree = document.querySelector('.textthree').querySelector('h1');
 
       setTimeout(function(){
-        textone.innerHTML = '今晚，整片星空将为你一人闪烁';
+        textone.innerHTML = '陈洁盈，整片星空将为你一人闪烁';
           textone.style.color = '#E8F9FD';
           textone.style.fontFamily = '楷体'
           texttwo.style.color = '#E8F9FD';
