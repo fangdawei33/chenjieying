@@ -1,135 +1,109 @@
-// poem
-var words=[
-    '伤心桥下春波绿',
-    '曾是惊鸿照影来',
-    '当年明月在',
-    '曾照彩云归',
-    '归去来兮',
-    '真堪偕隐',
-    '画船听雨眠',
-    '愿为江水',
-    '与君重逢',
-    '一日不见兮',
-    '思之若狂',
-    '偷偷表白一个叫-陈洁盈-的女孩',
-    '你曾是我灰色人生中的一道彩虹',
-    '柳絮空缱绻',
-    '南风知不知',
-    '我见青山多妩媚',
-    '料青山见我也应如是',
-    '取次花丛懒回顾',
-    '半缘修道半缘君',
-    '三笑徒然当一痴',
-    '人生若只如初见',
-    '我余光中都是你',
-    '人生自是有情痴',
-    '此恨不关风与月',
-    '因为你，我多少适应了这个世界',
-    '春蚕到死丝方尽',
-    '蜡炬成灰泪始干',
-    '今夜何夕',
-    '见此良人',
-    '愿我如星君如月',
-    '夜夜流光相皎洁',
-    '情不所起',
-    '一往而深',
-    '玲珑骰子安红豆',
-    '入骨相思知不知',
-    '多情只有春庭月',
-    '尤为离人照落花',
-    '若有知音见采',
-    '不辞唱遍阳春',
-    '休言半纸无多重',
-    '万斛离愁尽耐担',
-    '夜月一帘幽梦',
-    '和光同尘',
-    '杳霭流玉',
-    '月落星沉',
-    '霞姿月韵',
-    '喜上眉梢',
-    '醉后不知天在水',
-    '满船星梦压星河',
-    '落花人独立',
-    '微雨燕双飞',
-    '掬水月在手',
-    '弄花香满衣',
-    '夜深忽梦少年事',
-    '唯梦闲人不梦君',
-    '垆边人似月',
-    '皓腕凝霜雪',
-    '众里嫣然通一顾',
-    '人间颜色如尘土',
-    '若非群玉山头见',
-    '会向瑶台月下逢',
-    '沉鱼落雁鸟惊喧',
-    '羞花闭月花愁颤',
-    '解释春风无限恨',
-    '沉香亭北倚阑干'
+// 精选句子：定时随机出现在页面上（避开中间主标题区域）
+var floatingLines = [
+  '陈洁盈，整片星空将为你一人闪烁',
+  '愿我如星君如月，夜夜流光相皎洁',
+  '玲珑骰子安红豆，入骨相思知不知',
+  '人生若只如初见',
+  '因为你，我多少适应了这个世界',
+  '偷偷表白一个叫陈洁盈的女孩',
+  '满船星梦压星河',
+  '从前从前，有个人爱你很久',
+  '我见青山多妩媚，料青山见我也应如是',
+  '取次花丛懒回顾，半缘修道半缘君',
+  '春风十里，不如你',
+  '今夜，星星只为你亮'
 ];
-function randomNum(min,max){
-    var num = (Math.random()*(max-min+1)+min).toFixed(2);
-    return num;
+
+var FLOAT_INTERVAL_MIN = 3800;
+var FLOAT_INTERVAL_MAX = 7200;
+var FLOAT_STAY_MS = 6500;
+var MAX_FLOATING = 5;
+
+function randomBetween(min, max) {
+  return Math.random() * (max - min) + min;
 }
-function pickFloatingXY(isMobile, idx) {
-    if (!isMobile) {
-        return {
-            top: randomNum(4, 92) + 'vh',
-            left: randomNum(4, 92) + 'vw'
-        };
-    }
-    // Mobile: gather around title area in a loose "ring".
-    var columns = [28, 34, 40, 46, 54, 60, 66, 72];
-    var rows = [24, 30, 36, 42, 62, 68, 74, 80];
-    var col = columns[idx % columns.length];
-    var row = rows[Math.floor(idx / columns.length) % rows.length];
-    return { top: row + 'vh', left: col + 'vw' };
+
+function nextFloatDelay() {
+  return randomBetween(FLOAT_INTERVAL_MIN, FLOAT_INTERVAL_MAX);
 }
-function init(){
-    let container = document.querySelector('.container');
-    let f = document.createDocumentFragment();
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    const activeWords = isMobile ? words.slice(0, 40) : words;
-    container.innerHTML = '';
-    activeWords.forEach((w, idx)=>{
-    let word_box = document.createElement('div');
-    let word = document.createElement('div');
-        word.innerText = w;
-        word.classList.add('word');
-        word.style.color = '#BAABDA';
-        word.style.fontFamily = '楷体';
-        word.style.fontSize = isMobile ? '13px' : '20px'
-        word_box.classList.add('word-box');
-        var pos = pickFloatingXY(isMobile, idx);
-        word_box.style.top = pos.top;
-        word_box.style.left = pos.left;
-        word_box.style.setProperty("--animation-duration",(isMobile ? randomNum(14,26) : randomNum(8,20))+'s');
-        word_box.style.setProperty("--animation-delay",randomNum(-20,0)+'s');
-        
-        word_box.appendChild(word);
-        f.appendChild(word_box);
 
-
-    })
-    container.appendChild(f);
+function pickPosition() {
+  var x, y, tries = 0;
+  do {
+    x = randomBetween(4, 88);
+    y = randomBetween(10, 86);
+    tries++;
+    var inTitle =
+      x > 30 && x < 70 && y > 34 && y < 66;
+  } while (inTitle && tries < 18);
+  return { left: x + 'vw', top: y + 'vh' };
 }
-window.addEventListener('load',init);
-let textone = document.querySelector('.textone').querySelector('h1');
-      let texttwo = document.querySelector('.texttwo').querySelector('h1');
-      let textthree = document.querySelector('.textthree').querySelector('h1');
 
-      textone.innerHTML = '陈洁盈，整片星空将为你一人闪烁';
-      textone.style.color = '#E8F9FD';
-      textone.style.fontFamily = '楷体'
-      texttwo.style.color = '#E8F9FD';
-      texttwo.style.fontFamily = '楷体'
-      textthree.style.color = '#E8F9FD';
-      textthree.style.fontFamily = '楷体'
-      texttwo.innerHTML = '';
-      setTimeout(function(){
-        textone.innerHTML = '从前从前,有个人爱你很久';
-        texttwo.innerHTML = '但偏偏，风渐渐';
-        textthree.innerHTML = '把距离吹的好远';
-      },112500)
+function trimFloating(container) {
+  while (container.children.length > MAX_FLOATING) {
+    var first = container.firstChild;
+    if (first) first.remove();
+  }
+}
 
+function spawnFloatingLine() {
+  var container = document.querySelector('.container');
+  if (!container) return;
 
- 
+  trimFloating(container);
+
+  var text = floatingLines[Math.floor(Math.random() * floatingLines.length)];
+  var el = document.createElement('div');
+  el.className = 'floating-line';
+  el.textContent = text;
+
+  var pos = pickPosition();
+  el.style.left = pos.left;
+  el.style.top = pos.top;
+
+  container.appendChild(el);
+  requestAnimationFrame(function () {
+    el.classList.add('floating-line--show');
+  });
+
+  window.setTimeout(function () {
+    el.classList.remove('floating-line--show');
+    window.setTimeout(function () {
+      if (el.parentNode) el.remove();
+    }, 700);
+  }, FLOAT_STAY_MS);
+}
+
+function startFloatingLoop() {
+  spawnFloatingLine();
+  function schedule() {
+    window.setTimeout(function () {
+      spawnFloatingLine();
+      schedule();
+    }, nextFloatDelay());
+  }
+  schedule();
+}
+
+window.addEventListener('load', function () {
+  startFloatingLoop();
+});
+
+var textone = document.querySelector('.textone').querySelector('h1');
+var texttwo = document.querySelector('.texttwo').querySelector('h1');
+var textthree = document.querySelector('.textthree').querySelector('h1');
+
+textone.innerHTML = '陈洁盈，整片星空将为你一人闪烁';
+textone.style.color = '#E8F9FD';
+textone.style.fontFamily = '楷体';
+texttwo.style.color = '#E8F9FD';
+texttwo.style.fontFamily = '楷体';
+textthree.style.color = '#E8F9FD';
+textthree.style.fontFamily = '楷体';
+texttwo.innerHTML = '';
+
+window.setTimeout(function () {
+  textone.innerHTML = '祝护考顺利';
+  texttwo.innerHTML = '希望你考到自己理想的学校';
+  textthree.innerHTML = '加油！';
+}, 112500);
