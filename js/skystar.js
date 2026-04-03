@@ -216,6 +216,14 @@ function setPoemMode(enabled) {
   });
 }
 
+function revealPoemLine(index) {
+  if (!poemTexts[index] || !poemWraps[index]) return;
+  poemTexts[index].innerHTML = POEM_LINES[index] || '';
+  window.requestAnimationFrame(function () {
+    forceShow(poemWraps[index]);
+  });
+}
+
 function enterPoemStage() {
   if (currentStage !== 'title') return;
 
@@ -234,8 +242,7 @@ function enterPoemStage() {
   for (var i = 0; i < totalLines; i++) {
     (function (idx) {
       window.setTimeout(function () {
-        poemTexts[idx].innerHTML = POEM_LINES[idx] || '';
-        forceShow(poemWraps[idx]);
+        revealPoemLine(idx);
       }, idx * POEM_LINE_INTERVAL_MS);
     })(i);
   }
