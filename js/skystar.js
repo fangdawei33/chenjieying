@@ -72,20 +72,30 @@ function randomNum(min,max){
     var num = (Math.random()*(max-min+1)+min).toFixed(2);
     return num;
 }
-function pickFloatingXY(isMobile, w, h) {
-    var padT = h * 0.03;
-    var padB = h * 0.03;
-    var padL = w * 0.02;
-    var padR = w * 0.02;
-    var topPx, leftPx, tries = 0;
-    do {
-        topPx = padT + Math.random() * (h - padT - padB - 40);
-        leftPx = padL + Math.random() * (w - padL - padR - 40);
-        tries++;
-        if (!isMobile || tries > 20) break;
-        var inCenterY = topPx > h * 0.30 && topPx < h * 0.72;
-        var inCenterX = leftPx > w * 0.12 && leftPx < w * 0.88;
-    } while (inCenterY && inCenterX);
+function pickFloatingXY(isMobile, w, h, idx) {
+    if (!isMobile) {
+        return {
+            top: 10 + Math.random() * (h - 80),
+            left: 10 + Math.random() * (w - 120)
+        };
+    }
+    // Mobile: place words by zone to avoid center overlap and left-top clustering.
+    var zone = idx % 4;
+    var topPx;
+    var leftPx;
+    if (zone === 0) { // left side
+        topPx = 20 + Math.random() * (h - 120);
+        leftPx = 8 + Math.random() * (w * 0.20);
+    } else if (zone === 1) { // right side
+        topPx = 20 + Math.random() * (h - 120);
+        leftPx = w * 0.72 + Math.random() * (w * 0.20);
+    } else if (zone === 2) { // top band
+        topPx = 10 + Math.random() * (h * 0.22);
+        leftPx = w * 0.22 + Math.random() * (w * 0.52);
+    } else { // bottom band
+        topPx = h * 0.78 + Math.random() * (h * 0.16);
+        leftPx = w * 0.22 + Math.random() * (w * 0.52);
+    }
     return { top: topPx, left: leftPx };
 }
 function init(){
@@ -95,7 +105,7 @@ function init(){
     const activeWords = isMobile ? words.slice(0, 28) : words;
     var cw = container.offsetWidth || window.innerWidth;
     var ch = container.offsetHeight || window.innerHeight;
-    activeWords.forEach(w=>{
+    activeWords.forEach((w, idx)=>{
     let word_box = document.createElement('div');
     let word = document.createElement('div');
         word.innerText = w;
@@ -104,7 +114,7 @@ function init(){
         word.style.fontFamily = '楷体';
         word.style.fontSize = isMobile ? '12px' : '20px'
         word_box.classList.add('word-box');
-        var pos = pickFloatingXY(isMobile, cw, ch);
+        var pos = pickFloatingXY(isMobile, cw, ch, idx);
         word_box.style.top = pos.top + 'px';
         word_box.style.left = pos.left + 'px';
         word_box.style.setProperty("--animation-duration",(isMobile ? randomNum(14,26) : randomNum(8,20))+'s');
