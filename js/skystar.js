@@ -13,7 +13,7 @@ var words=[
     '思之若狂',
     '好想回到那个夏天',
     '趴在桌子上偷偷看你',
-    '偷偷表白一个叫dmz的女孩',
+    '偷偷表白一个叫陈洁盈的女孩',
     '你曾是我灰色人生中的一道彩虹',
     '柳絮空缱绻',
     '南风知不知',
@@ -72,39 +72,34 @@ function randomNum(min,max){
     var num = (Math.random()*(max-min+1)+min).toFixed(2);
     return num;
 }
-function pickFloatingXY(isMobile, w, h, idx) {
+function pickFloatingXY(isMobile, idx) {
     if (!isMobile) {
         return {
-            top: 10 + Math.random() * (h - 80),
-            left: 10 + Math.random() * (w - 120)
+            top: randomNum(4, 92) + 'vh',
+            left: randomNum(4, 92) + 'vw'
         };
     }
-    // Mobile: place words by zone to avoid center overlap and left-top clustering.
-    var zone = idx % 4;
-    var topPx;
-    var leftPx;
-    if (zone === 0) { // left side
-        topPx = 20 + Math.random() * (h - 120);
-        leftPx = 8 + Math.random() * (w * 0.20);
-    } else if (zone === 1) { // right side
-        topPx = 20 + Math.random() * (h - 120);
-        leftPx = w * 0.72 + Math.random() * (w * 0.20);
-    } else if (zone === 2) { // top band
-        topPx = 10 + Math.random() * (h * 0.22);
-        leftPx = w * 0.22 + Math.random() * (w * 0.52);
-    } else { // bottom band
-        topPx = h * 0.78 + Math.random() * (h * 0.16);
-        leftPx = w * 0.22 + Math.random() * (w * 0.52);
-    }
-    return { top: topPx, left: leftPx };
+    // Mobile: deterministic anchors, always spread around edges.
+    var anchors = [
+        { top: '8vh', left: '6vw' },   { top: '16vh', left: '8vw' },  { top: '26vh', left: '5vw' },
+        { top: '76vh', left: '7vw' },  { top: '86vh', left: '10vw' }, { top: '94vh', left: '6vw' },
+        { top: '10vh', left: '74vw' }, { top: '18vh', left: '79vw' }, { top: '28vh', left: '76vw' },
+        { top: '74vh', left: '75vw' }, { top: '84vh', left: '80vw' }, { top: '93vh', left: '77vw' },
+        { top: '4vh', left: '28vw' },  { top: '6vh', left: '44vw' },  { top: '8vh', left: '58vw' },
+        { top: '96vh', left: '27vw' }, { top: '94vh', left: '43vw' }, { top: '92vh', left: '57vw' },
+        { top: '34vh', left: '3vw' },  { top: '52vh', left: '4vw' },  { top: '68vh', left: '3vw' },
+        { top: '35vh', left: '84vw' }, { top: '52vh', left: '86vw' }, { top: '67vh', left: '84vw' },
+        { top: '12vh', left: '90vw' }, { top: '88vh', left: '90vw' }, { top: '12vh', left: '2vw' },
+        { top: '88vh', left: '2vw' }
+    ];
+    return anchors[idx % anchors.length];
 }
 function init(){
     let container = document.querySelector('.container');
     let f = document.createDocumentFragment();
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
     const activeWords = isMobile ? words.slice(0, 28) : words;
-    var cw = container.offsetWidth || window.innerWidth;
-    var ch = container.offsetHeight || window.innerHeight;
+    container.innerHTML = '';
     activeWords.forEach((w, idx)=>{
     let word_box = document.createElement('div');
     let word = document.createElement('div');
@@ -114,9 +109,9 @@ function init(){
         word.style.fontFamily = '楷体';
         word.style.fontSize = isMobile ? '12px' : '20px'
         word_box.classList.add('word-box');
-        var pos = pickFloatingXY(isMobile, cw, ch, idx);
-        word_box.style.top = pos.top + 'px';
-        word_box.style.left = pos.left + 'px';
+        var pos = pickFloatingXY(isMobile, idx);
+        word_box.style.top = pos.top;
+        word_box.style.left = pos.left;
         word_box.style.setProperty("--animation-duration",(isMobile ? randomNum(14,26) : randomNum(8,20))+'s');
         word_box.style.setProperty("--animation-delay",randomNum(-20,0)+'s');
         
