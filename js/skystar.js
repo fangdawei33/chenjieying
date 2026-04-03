@@ -1,17 +1,24 @@
 // 精选句子：定时随机出现在页面上（避开中间主标题区域）
 var floatingLines = [
-  '陈洁盈，整片星空将为你一人闪烁',
-  '愿我如星君如月，夜夜流光相皎洁',
-  '玲珑骰子安红豆，入骨相思知不知',
-  '人生若只如初见',
-  '因为你，我多少适应了这个世界',
-  '偷偷表白一个叫陈洁盈的女孩',
-  '满船星梦压星河',
-  '从前从前，有个人爱你很久',
-  '我见青山多妩媚，料青山见我也应如是',
-  '取次花丛懒回顾，半缘修道半缘君',
-  '春风十里，不如你',
-  '今夜，星星只为你亮'
+  '💕🥰别被焦虑困住，你一直都在认真努力，护考一定稳稳上岸，夜夜安睡无噩梦💕🥰',
+  '💕🥰所有疲惫都会变成底气，放宽心，你超棒的，考试顺顺利利，好梦常伴💕🥰',
+  '💕🥰心定则万事安，付出的每一分努力，都会在考场上给你最好的答案💕🥰',
+  '💕🥰别太逼自己啦，你已经很努力了，愿你夜夜无噩梦，心安即是归处，护考一定稳稳上岸💕🥰',
+  '💕🥰愿你考试顺顺利利，夜夜安睡无噩梦，所有的努力都能在考场上得到最好的回报💕🥰',
+  
+  
+  '💕🥰人生若只如初见💕🥰',
+  '💕🥰因为你，我多少适应了这个世界💕🥰',
+  '💕🥰偷偷表白一个叫陈洁盈的女孩💕🥰',
+  '💕🥰满船星梦压星河💕🥰',
+  '❤💕从前从前，有个人爱你很久🥰😉',
+  '🥰😉我见青山多妩媚，料青山见我也应如是🥰😉',
+  '🥰😉取次花丛懒回顾，半缘修道半缘君🥰😉',
+  '🥰😉春风十里，不如你🥰😉',
+  '🥰😉愿得一心人，白首不相离🥰😉',
+  '🥰😉山有木兮木有枝，心悦君兮君不知🥰😉',
+  '🥰😉愿我如星君如月，夜夜流光相皎洁🥰😉',
+  '🥰😉今夜，星星只为你亮🥰😉'
 ];
 
 var FLOAT_INTERVAL_MIN = 3800;
@@ -23,10 +30,14 @@ var POEM_STAGE_MS = 30000;
 var currentStage = 'title';
 var floatingLoopEnabled = false;
 var floatingTimerId = null;
+var timelineStarted = false;
+var titleToPoemTimerId = null;
+var titleFallbackTimerId = null;
 var POEM_LINES = [
-  '你抬头时，晚风正把星河吹亮',
-  '我闭上眼，心事却朝你生长',
-  '愿你所愿，都在晨光里安放'
+  '最近你总太累，梦也不安稳',
+  '愿晚风轻轻吹，带走所有伤痛',
+  '烦恼慢慢消散，噩梦不留痕迹',
+  '护考顺顺利利，夜夜睡得沉稳'
 ];
 
 function randomBetween(min, max) {
@@ -109,6 +120,17 @@ function stopFloatingLoop() {
   }
 }
 
+function clearTimelineTimers() {
+  if (titleToPoemTimerId) {
+    window.clearTimeout(titleToPoemTimerId);
+    titleToPoemTimerId = null;
+  }
+  if (titleFallbackTimerId) {
+    window.clearTimeout(titleFallbackTimerId);
+    titleFallbackTimerId = null;
+  }
+}
+
 function clearFloatingContainer() {
   var container = document.querySelector('.container');
   if (!container) return;
@@ -159,7 +181,10 @@ function forceHide(el) {
 }
 
 function enterPoemStage() {
+  if (currentStage !== 'title') return;
+
   currentStage = 'poem';
+  clearTimelineTimers();
 
   forceShow(textoneWrap);
   forceHide(texttwoWrap);
@@ -172,12 +197,12 @@ function enterPoemStage() {
   window.setTimeout(function () {
     texttwo.innerHTML = POEM_LINES[1];
     forceShow(texttwoWrap);
-  }, 1800);
+  }, 1200);
 
   window.setTimeout(function () {
     textthree.innerHTML = POEM_LINES[2];
     forceShow(textthreeWrap);
-  }, 3600);
+  }, 2400);
 
   window.setTimeout(function () {
     dropOut(textoneWrap);
@@ -198,8 +223,13 @@ function enterPoemStage() {
 }
 
 function startTimeline() {
+  if (!textoneWrap || !texttwoWrap || !textthreeWrap || !textone || !texttwo || !textthree) {
+    return;
+  }
+
   currentStage = 'title';
   stopFloatingLoop();
+  clearTimelineTimers();
   clearFloatingContainer();
 
   setBaseTextStyle();
@@ -215,19 +245,29 @@ function startTimeline() {
   resetDrop(texttwoWrap);
   resetDrop(textthreeWrap);
 
-  window.setTimeout(function () {
+  titleToPoemTimerId = window.setTimeout(function () {
     dropOut(textoneWrap);
 
     window.setTimeout(function () {
       enterPoemStage();
     }, 900);
   }, TITLE_STAGE_MS);
+
+  titleFallbackTimerId = window.setTimeout(function () {
+    enterPoemStage();
+  }, TITLE_STAGE_MS + 1200);
+}
+
+function bootTimelineOnce() {
+  if (timelineStarted) return;
+  timelineStarted = true;
+  startTimeline();
 }
 
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', function () {
-    startTimeline();
+    bootTimelineOnce();
   });
 } else {
-  startTimeline();
+  bootTimelineOnce();
 }
