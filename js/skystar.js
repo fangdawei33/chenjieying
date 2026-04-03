@@ -77,9 +77,9 @@ function pickFloatingXY(isMobile, idx) {
             left: randomNum(4, 92) + 'vw'
         };
     }
-    // Mobile: stable vertical columns to keep "small poem text" orderly.
-    var columns = [6, 11, 17, 23, 77, 83, 88, 93];
-    var rows = [8, 16, 24, 32, 68, 76, 84, 92];
+    // Mobile: gather around title area in a loose "ring".
+    var columns = [28, 34, 40, 46, 54, 60, 66, 72];
+    var rows = [24, 30, 36, 42, 62, 68, 74, 80];
     var col = columns[idx % columns.length];
     var row = rows[Math.floor(idx / columns.length) % rows.length];
     return { top: row + 'vh', left: col + 'vw' };
@@ -88,7 +88,7 @@ function init(){
     let container = document.querySelector('.container');
     let f = document.createDocumentFragment();
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    const activeWords = isMobile ? words.slice(0, 56) : words;
+    const activeWords = isMobile ? words.slice(0, 40) : words;
     container.innerHTML = '';
     activeWords.forEach((w, idx)=>{
     let word_box = document.createElement('div');
@@ -97,7 +97,7 @@ function init(){
         word.classList.add('word');
         word.style.color = '#BAABDA';
         word.style.fontFamily = '楷体';
-        word.style.fontSize = isMobile ? '14px' : '20px'
+        word.style.fontSize = isMobile ? '13px' : '20px'
         word_box.classList.add('word-box');
         var pos = pickFloatingXY(isMobile, idx);
         word_box.style.top = pos.top;

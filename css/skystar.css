@@ -113,9 +113,9 @@ h1{
         writing-mode: vertical-rl;
         text-orientation: upright;
         white-space: normal;
-        line-height: 1.15;
-        letter-spacing: 0.5px;
-        opacity: 0.88;
+        line-height: 1.32;
+        letter-spacing: 1px;
+        opacity: 0.92;
     }
     #videofilm {
         width: 100%;
