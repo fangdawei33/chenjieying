@@ -116,9 +116,9 @@ h1{
     text-shadow: 0 4px 16px rgba(0, 0, 0, 0.62);
 }
 
-.textone.final-title { top: 26%; }
-.texttwo.final-title { top: 46%; }
-.textthree.final-title { top: 66%; }
+.textone.final-title { top: 16%; }
+.texttwo.final-title { top: 34%; }
+.textthree.final-title { top: 52%; }
 
 .textone.final-title h1 {
     font-size: clamp(36px, 5.4vw, 68px);
@@ -206,9 +206,9 @@ h1{
     .textfour.poem-line { top: 60%; }
     .textfive.poem-line { top: 68%; }
     .textsix.poem-line { top: 76%; }
-    .textone.final-title { top: 30%; }
-    .texttwo.final-title { top: 48%; }
-    .textthree.final-title { top: 66%; }
+    .textone.final-title { top: 20%; }
+    .texttwo.final-title { top: 38%; }
+    .textthree.final-title { top: 56%; }
     .textone.final-title h1 {
         font-size: clamp(22px, 9.2vw, 40px);
     }
