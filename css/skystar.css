@@ -56,9 +56,16 @@ h1{
     top: 60%;
     transform: translateX(-50%);
 }
+.textfour {
+    position: absolute;
+    left: 50%;
+    top: 70%;
+    transform: translateX(-50%);
+}
 .textone,
 .texttwo,
-.textthree {
+.textthree,
+.textfour {
     width: min(92vw, 960px);
     padding: 0 12px;
     z-index: 2;
@@ -116,6 +123,9 @@ h1{
     }
     .textthree {
         top: 62%;
+    }
+    .textfour {
+        top: 72%;
     }
     .floating-line {
         max-width: min(82vw, 360px);

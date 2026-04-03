@@ -140,10 +140,12 @@ function clearFloatingContainer() {
 var textoneWrap = document.querySelector('.textone');
 var texttwoWrap = document.querySelector('.texttwo');
 var textthreeWrap = document.querySelector('.textthree');
+var textfourWrap = document.querySelector('.textfour');
 
 var textone = textoneWrap.querySelector('h1');
 var texttwo = texttwoWrap.querySelector('h1');
 var textthree = textthreeWrap.querySelector('h1');
+var textfour = textfourWrap ? textfourWrap.querySelector('h1') : null;
 
 function setBaseTextStyle() {
   textone.style.color = '#E8F9FD';
@@ -152,6 +154,10 @@ function setBaseTextStyle() {
   texttwo.style.fontFamily = '楷体';
   textthree.style.color = '#E8F9FD';
   textthree.style.fontFamily = '楷体';
+  if (textfour) {
+    textfour.style.color = '#E8F9FD';
+    textfour.style.fontFamily = '楷体';
+  }
 }
 
 function showElement(el) {
@@ -189,10 +195,16 @@ function enterPoemStage() {
   forceShow(textoneWrap);
   forceHide(texttwoWrap);
   forceHide(textthreeWrap);
+  if (textfourWrap) {
+    forceHide(textfourWrap);
+  }
 
   textone.innerHTML = POEM_LINES[0] || '';
   texttwo.innerHTML = '';
   textthree.innerHTML = '';
+  if (textfour) {
+    textfour.innerHTML = '';
+  }
 
   window.setTimeout(function () {
     texttwo.innerHTML = POEM_LINES[1] || '';
@@ -205,17 +217,32 @@ function enterPoemStage() {
   }, 2400);
 
   window.setTimeout(function () {
+    if (!textfourWrap || !textfour) return;
+    textfour.innerHTML = POEM_LINES[3] || '';
+    forceShow(textfourWrap);
+  }, 3600);
+
+  window.setTimeout(function () {
     dropOut(textoneWrap);
     dropOut(texttwoWrap);
     dropOut(textthreeWrap);
+    if (textfourWrap) {
+      dropOut(textfourWrap);
+    }
 
     window.setTimeout(function () {
       forceHide(textoneWrap);
       forceHide(texttwoWrap);
       forceHide(textthreeWrap);
+      if (textfourWrap) {
+        forceHide(textfourWrap);
+      }
       textone.innerHTML = '';
       texttwo.innerHTML = '';
       textthree.innerHTML = '';
+      if (textfour) {
+        textfour.innerHTML = '';
+      }
       currentStage = 'floating';
       startFloatingLoop();
     }, 900);
@@ -237,13 +264,22 @@ function startTimeline() {
   textone.innerHTML = '陈洁盈，整片星空将为你一人闪烁';
   texttwo.innerHTML = '';
   textthree.innerHTML = '';
+  if (textfour) {
+    textfour.innerHTML = '';
+  }
 
   showElement(textoneWrap);
   hideElement(texttwoWrap);
   hideElement(textthreeWrap);
+  if (textfourWrap) {
+    hideElement(textfourWrap);
+  }
   resetDrop(textoneWrap);
   resetDrop(texttwoWrap);
   resetDrop(textthreeWrap);
+  if (textfourWrap) {
+    resetDrop(textfourWrap);
+  }
 
   titleToPoemTimerId = window.setTimeout(function () {
     dropOut(textoneWrap);
