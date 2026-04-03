@@ -27,6 +27,10 @@ function nextFloatDelay() {
   return randomBetween(FLOAT_INTERVAL_MIN, FLOAT_INTERVAL_MAX);
 }
 
+function isMobileLayout() {
+  return window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+}
+
 function pickPosition() {
   var x, y, tries = 0;
   do {
@@ -44,6 +48,41 @@ function trimFloating(container) {
     var first = container.firstChild;
     if (first) first.remove();
   }
+}
+
+function startMobileOrbit() {
+  var container = document.querySelector('.container');
+  if (!container) return;
+
+  var shell = document.createElement('div');
+  shell.className = 'mobile-orbit-shell';
+
+  var ring = document.createElement('div');
+  ring.className = 'mobile-orbit-ring';
+
+  var orbitLines = floatingLines.slice(1, 9);
+  while (orbitLines.length < 8) {
+    orbitLines.push(floatingLines[orbitLines.length % floatingLines.length]);
+  }
+
+  for (var i = 0; i < orbitLines.length; i++) {
+    var item = document.createElement('div');
+    var angle = (360 / orbitLines.length) * i;
+    var radius = i % 2 === 0 ? randomBetween(116, 150) : randomBetween(98, 132);
+    var depth = i % 3 === 0 ? randomBetween(12, 40) : randomBetween(-10, 18);
+
+    item.className = 'orbit-item';
+    item.textContent = orbitLines[i];
+    item.style.setProperty('--angle', angle + 'deg');
+    item.style.setProperty('--radius', radius + 'px');
+    item.style.setProperty('--depth', depth + 'px');
+    item.style.setProperty('--delay', i * 220 + 'ms');
+
+    ring.appendChild(item);
+  }
+
+  shell.appendChild(ring);
+  container.appendChild(shell);
 }
 
 function spawnFloatingLine() {
@@ -86,6 +125,11 @@ function startFloatingLoop() {
 }
 
 window.addEventListener('load', function () {
+  if (isMobileLayout()) {
+    startMobileOrbit();
+    return;
+  }
+
   startFloatingLoop();
 });
 
