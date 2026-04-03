@@ -77,28 +77,12 @@ function pickFloatingXY(isMobile, idx) {
             left: randomNum(4, 92) + 'vw'
         };
     }
-    // Mobile: deterministic anchors around edges, keep center clear.
-    var anchors = [
-        { top: '10vh', left: '8vw' },  { top: '22vh', left: '9vw' },  { top: '34vh', left: '8vw' },
-        { top: '66vh', left: '8vw' },  { top: '78vh', left: '9vw' },  { top: '88vh', left: '8vw' },
-        { top: '10vh', left: '78vw' }, { top: '22vh', left: '80vw' }, { top: '34vh', left: '79vw' },
-        { top: '66vh', left: '79vw' }, { top: '78vh', left: '81vw' }, { top: '88vh', left: '79vw' },
-        { top: '6vh', left: '28vw' },  { top: '7vh', left: '44vw' },  { top: '6vh', left: '60vw' },
-        { top: '92vh', left: '28vw' }, { top: '91vh', left: '44vw' }, { top: '92vh', left: '60vw' },
-        { top: '14vh', left: '18vw' }, { top: '14vh', left: '68vw' }, { top: '84vh', left: '18vw' },
-        { top: '84vh', left: '68vw' }, { top: '28vh', left: '16vw' }, { top: '28vh', left: '70vw' },
-        { top: '72vh', left: '16vw' }, { top: '72vh', left: '70vw' }, { top: '40vh', left: '10vw' },
-        { top: '40vh', left: '76vw' }
-    ];
-    var base = anchors[idx % anchors.length];
-    var layer = Math.floor(idx / anchors.length);
-    var topN = parseFloat(base.top);
-    var leftN = parseFloat(base.left);
-    var jitterTop = (layer % 4) * 1.2;
-    var jitterLeft = ((layer % 3) - 1) * 1.6;
-    var finalTop = Math.min(96, Math.max(4, topN + jitterTop));
-    var finalLeft = Math.min(92, Math.max(4, leftN + jitterLeft));
-    return { top: finalTop + 'vh', left: finalLeft + 'vw' };
+    // Mobile: stable vertical columns to keep "small poem text" orderly.
+    var columns = [6, 11, 17, 23, 77, 83, 88, 93];
+    var rows = [8, 16, 24, 32, 68, 76, 84, 92];
+    var col = columns[idx % columns.length];
+    var row = rows[Math.floor(idx / columns.length) % rows.length];
+    return { top: row + 'vh', left: col + 'vw' };
 }
 function init(){
     let container = document.querySelector('.container');
@@ -113,7 +97,7 @@ function init(){
         word.classList.add('word');
         word.style.color = '#BAABDA';
         word.style.fontFamily = '楷体';
-        word.style.fontSize = isMobile ? '15px' : '20px'
+        word.style.fontSize = isMobile ? '14px' : '20px'
         word_box.classList.add('word-box');
         var pos = pickFloatingXY(isMobile, idx);
         word_box.style.top = pos.top;
@@ -133,16 +117,14 @@ let textone = document.querySelector('.textone').querySelector('h1');
       let texttwo = document.querySelector('.texttwo').querySelector('h1');
       let textthree = document.querySelector('.textthree').querySelector('h1');
 
-      setTimeout(function(){
-        textone.innerHTML = '陈洁盈，整片星空将为你一人闪烁';
-          textone.style.color = '#E8F9FD';
-          textone.style.fontFamily = '楷体'
-          texttwo.style.color = '#E8F9FD';
-          texttwo.style.fontFamily = '楷体'
-          textthree.style.color = '#E8F9FD';
-          textthree.style.fontFamily = '楷体'
-          texttwo.innerHTML = '';
-      },28000)
+      textone.innerHTML = '陈洁盈，整片星空将为你一人闪烁';
+      textone.style.color = '#E8F9FD';
+      textone.style.fontFamily = '楷体'
+      texttwo.style.color = '#E8F9FD';
+      texttwo.style.fontFamily = '楷体'
+      textthree.style.color = '#E8F9FD';
+      textthree.style.fontFamily = '楷体'
+      texttwo.innerHTML = '';
       setTimeout(function(){
         textone.innerHTML = '从前从前,有个人爱你很久';
         texttwo.innerHTML = '但偏偏，风渐渐';
