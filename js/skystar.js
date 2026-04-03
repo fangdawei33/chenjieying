@@ -43,6 +43,11 @@ var POEM_LINES = [
   '护考一路顺风，答案都写成希望',
   '今晚先安心睡吧，星光会替你守望'
 ];
+var FINAL_TITLE_LINES = [
+  '祝护考顺利',
+  '希望你考到自己理想的学校',
+  '加油！'
+];
 
 function randomBetween(min, max) {
   return Math.random() * (max - min) + min;
@@ -58,8 +63,12 @@ function pickPosition() {
     x = randomBetween(4, 88);
     y = randomBetween(10, 86);
     tries++;
-    var inTitle =
-      x > 30 && x < 70 && y > 34 && y < 66;
+    var inTitle;
+    if (currentStage === 'floating') {
+      inTitle = x > 16 && x < 84 && y > 22 && y < 82;
+    } else {
+      inTitle = x > 30 && x < 70 && y > 34 && y < 66;
+    }
   } while (inTitle && tries < 18);
   return { left: x + 'vw', top: y + 'vh' };
 }
@@ -216,6 +225,43 @@ function setPoemMode(enabled) {
   });
 }
 
+function setFinalTitleMode(enabled) {
+  [textoneWrap, texttwoWrap, textthreeWrap].forEach(function (wrap) {
+    if (!wrap) return;
+    if (enabled) {
+      wrap.classList.add('final-title');
+    } else {
+      wrap.classList.remove('final-title');
+    }
+  });
+}
+
+function enterFinalFloatingStage() {
+  setPoemMode(false);
+  setFinalTitleMode(true);
+
+  textone.innerHTML = FINAL_TITLE_LINES[0] || '';
+  texttwo.innerHTML = FINAL_TITLE_LINES[1] || '';
+  textthree.innerHTML = FINAL_TITLE_LINES[2] || '';
+
+  forceShow(textoneWrap);
+  forceShow(texttwoWrap);
+  forceShow(textthreeWrap);
+
+  [textfourWrap, textfiveWrap, textsixWrap].forEach(function (wrap) {
+    if (!wrap) return;
+    forceHide(wrap);
+  });
+
+  [textfour, textfive, textsix].forEach(function (textEl) {
+    if (!textEl) return;
+    textEl.innerHTML = '';
+  });
+
+  currentStage = 'floating';
+  startFloatingLoop();
+}
+
 function revealPoemLine(index) {
   if (!poemTexts[index] || !poemWraps[index]) return;
   poemTexts[index].innerHTML = POEM_LINES[index] || '';
@@ -259,9 +305,7 @@ function enterPoemStage() {
       poemTexts.forEach(function (textEl) {
         textEl.innerHTML = '';
       });
-      setPoemMode(false);
-      currentStage = 'floating';
-      startFloatingLoop();
+      enterFinalFloatingStage();
     }, 900);
   }, POEM_STAGE_MS);
 }
@@ -285,6 +329,7 @@ function startTimeline() {
   });
 
   showElement(textoneWrap);
+  setFinalTitleMode(false);
   poemWraps.forEach(function (wrap, index) {
     if (index === 0) {
       resetDrop(wrap);
