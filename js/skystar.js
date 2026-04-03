@@ -26,7 +26,7 @@ var FLOAT_INTERVAL_MAX = 7200;
 var FLOAT_STAY_MS = 6500;
 var MAX_FLOATING = 5;
 var TITLE_STAGE_MS = 15000;
-var POEM_STAGE_MS = 30000;
+var POEM_STAGE_MS = 10000;
 var currentStage = 'title';
 var floatingLoopEnabled = false;
 var floatingTimerId = null;
@@ -190,17 +190,17 @@ function enterPoemStage() {
   forceHide(texttwoWrap);
   forceHide(textthreeWrap);
 
-  textone.innerHTML = POEM_LINES[0];
+  textone.innerHTML = POEM_LINES[0] || '';
   texttwo.innerHTML = '';
   textthree.innerHTML = '';
 
   window.setTimeout(function () {
-    texttwo.innerHTML = POEM_LINES[1];
+    texttwo.innerHTML = POEM_LINES[1] || '';
     forceShow(texttwoWrap);
   }, 1200);
 
   window.setTimeout(function () {
-    textthree.innerHTML = POEM_LINES[2];
+    textthree.innerHTML = POEM_LINES[2] || '';
     forceShow(textthreeWrap);
   }, 2400);
 
