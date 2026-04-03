@@ -104,6 +104,13 @@ h1{
     transform: translate(-50%, 18px);
 }
 
+.textone.poem-line { top: 34%; }
+.texttwo.poem-line { top: 42%; }
+.textthree.poem-line { top: 50%; }
+.textfour.poem-line { top: 58%; }
+.textfive.poem-line { top: 66%; }
+.textsix.poem-line { top: 74%; }
+
 .stage-hidden {
     opacity: 0;
     pointer-events: none;
@@ -168,6 +175,12 @@ h1{
         font-size: clamp(15px, 4.8vw, 23px);
         line-height: 1.28;
     }
+    .textone.poem-line { top: 36%; }
+    .texttwo.poem-line { top: 44%; }
+    .textthree.poem-line { top: 52%; }
+    .textfour.poem-line { top: 60%; }
+    .textfive.poem-line { top: 68%; }
+    .textsix.poem-line { top: 76%; }
     .floating-line {
         max-width: min(82vw, 360px);
         font-size: clamp(12px, 3.6vw, 16px);
