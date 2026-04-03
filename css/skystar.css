@@ -64,8 +64,6 @@ h1{
     z-index: 2;
 }
 :root {
-    --margin-top: 0;
-    --margin-left: 0;
     --animation-duration: 0s;
     --animation-delay: 0s;
 }
@@ -78,21 +76,20 @@ div {
     z-index: 1;
     pointer-events: none;
 }
-.word-box,
-.word-box .word{
-position: absolute;
-animation: rotY 0s linear infinite;
-animation-duration: var(--animation-duration);
-animation-delay: var(--animation-delay);
-}
-.word-box{
-    margin-top: var(--margin-top);
-}
-.word-box .word{
-    margin-left: var(--margin-left);
+.word-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: center center;
+    will-change: transform;
 }
 .word-box .word {
-    animation-duration: reverse;
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+    max-width: min(88vw, 420px);
+    animation: rotY var(--animation-duration) linear infinite;
+    animation-delay: var(--animation-delay);
 }
 @keyframes rotY {
     to{

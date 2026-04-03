@@ -72,11 +72,29 @@ function randomNum(min,max){
     var num = (Math.random()*(max-min+1)+min).toFixed(2);
     return num;
 }
+function pickFloatingXY(isMobile, w, h) {
+    var padT = h * 0.03;
+    var padB = h * 0.03;
+    var padL = w * 0.02;
+    var padR = w * 0.02;
+    var topPx, leftPx, tries = 0;
+    do {
+        topPx = padT + Math.random() * (h - padT - padB - 40);
+        leftPx = padL + Math.random() * (w - padL - padR - 40);
+        tries++;
+        if (!isMobile || tries > 20) break;
+        var inCenterY = topPx > h * 0.30 && topPx < h * 0.72;
+        var inCenterX = leftPx > w * 0.12 && leftPx < w * 0.88;
+    } while (inCenterY && inCenterX);
+    return { top: topPx, left: leftPx };
+}
 function init(){
     let container = document.querySelector('.container');
     let f = document.createDocumentFragment();
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
     const activeWords = isMobile ? words.slice(0, 28) : words;
+    var cw = container.offsetWidth || window.innerWidth;
+    var ch = container.offsetHeight || window.innerHeight;
     activeWords.forEach(w=>{
     let word_box = document.createElement('div');
     let word = document.createElement('div');
@@ -86,8 +104,9 @@ function init(){
         word.style.fontFamily = '楷体';
         word.style.fontSize = isMobile ? '12px' : '20px'
         word_box.classList.add('word-box');
-        word_box.style.setProperty("--margin-top",(isMobile ? randomNum(-20,8) : randomNum(-40,20))+'vh');
-        word_box.style.setProperty("--margin-left",(isMobile ? randomNum(8,32) : randomNum(6,35))+'vw');
+        var pos = pickFloatingXY(isMobile, cw, ch);
+        word_box.style.top = pos.top + 'px';
+        word_box.style.left = pos.left + 'px';
         word_box.style.setProperty("--animation-duration",(isMobile ? randomNum(14,26) : randomNum(8,20))+'s');
         word_box.style.setProperty("--animation-delay",randomNum(-20,0)+'s');
         
