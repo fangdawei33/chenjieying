@@ -34,6 +34,7 @@ var floatingTimerId = null;
 var timelineStarted = false;
 var titleToPoemTimerId = null;
 var titleFallbackTimerId = null;
+var MAIN_FONT_STACK = "'STKaiti', 'KaiTi', 'Kaiti SC', 'Songti SC', 'Noto Serif SC', 'Source Han Serif SC', 'PingFang SC', 'Microsoft YaHei', serif";
 var POEM_LINES = [
   '你为梦想走过的每一步，都算数',
   '那些熬过的夜，终会在清晨发光',
@@ -159,22 +160,22 @@ var poemTexts = [textone, texttwo, textthree, textfour, textfive, textsix].filte
 
 function setBaseTextStyle() {
   textone.style.color = '#E8F9FD';
-  textone.style.fontFamily = '楷体';
+  textone.style.fontFamily = MAIN_FONT_STACK;
   texttwo.style.color = '#E8F9FD';
-  texttwo.style.fontFamily = '楷体';
+  texttwo.style.fontFamily = MAIN_FONT_STACK;
   textthree.style.color = '#E8F9FD';
-  textthree.style.fontFamily = '楷体';
+  textthree.style.fontFamily = MAIN_FONT_STACK;
   if (textfour) {
     textfour.style.color = '#E8F9FD';
-    textfour.style.fontFamily = '楷体';
+    textfour.style.fontFamily = MAIN_FONT_STACK;
   }
   if (textfive) {
     textfive.style.color = '#E8F9FD';
-    textfive.style.fontFamily = '楷体';
+    textfive.style.fontFamily = MAIN_FONT_STACK;
   }
   if (textsix) {
     textsix.style.color = '#E8F9FD';
-    textsix.style.fontFamily = '楷体';
+    textsix.style.fontFamily = MAIN_FONT_STACK;
   }
 }
 

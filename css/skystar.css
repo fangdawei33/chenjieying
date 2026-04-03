@@ -3,6 +3,9 @@
     padding: 0;
     box-sizing: border-box;
 }
+:root {
+    --cn-font-serif: 'STKaiti', 'KaiTi', 'Kaiti SC', 'Songti SC', 'Noto Serif SC', 'Source Han Serif SC', 'PingFang SC', 'Microsoft YaHei', serif;
+}
 html, body {
     width: 100%;
     min-height: 100%;
@@ -33,7 +36,7 @@ body {
 h1{
     font-size: clamp(26px, 3vw, 42px);
     color: #B1BCE6;
-    font-family: '楷体';
+    font-family: var(--cn-font-serif);
     text-align: center;
     line-height: 1.35;
     text-shadow: 0 2px 10px rgba(0,0,0,0.35);
@@ -116,7 +119,7 @@ h1{
     position: absolute;
     max-width: min(78vw, 420px);
     padding: 6px 10px;
-    font-family: '楷体', 'KaiTi', serif;
+    font-family: var(--cn-font-serif);
     font-size: clamp(13px, 3.2vw, 18px);
     line-height: 1.45;
     color: #E8D5F2;
@@ -135,7 +138,7 @@ h1{
     h1 {
         font-size: clamp(18px, 7vw, 30px);
         color: #E8F9FD;
-        font-family: '楷体';
+        font-family: var(--cn-font-serif);
         text-shadow: 0 2px 12px rgba(0,0,0,0.5);
     }
     .textone {
