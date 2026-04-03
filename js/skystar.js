@@ -27,35 +27,15 @@ function nextFloatDelay() {
   return randomBetween(FLOAT_INTERVAL_MIN, FLOAT_INTERVAL_MAX);
 }
 
-function getViewportWidth() {
-  if (window.visualViewport && window.visualViewport.width) {
-    return window.visualViewport.width;
-  }
-  return window.innerWidth || document.documentElement.clientWidth || 0;
-}
-
-function isMobileLayout() {
-  var viewportWidth = getViewportWidth();
-  var hasTouch = !!(navigator.maxTouchPoints && navigator.maxTouchPoints > 0);
-  return viewportWidth <= 900 || (hasTouch && viewportWidth <= 1280);
-}
-
 function pickPosition() {
-  var isMobile = getViewportWidth() <= 900;
-  var x, y;
-  
-  if (isMobile) {
-    x = randomBetween(15, 85);
-    y = randomBetween(38, 58);
-  } else {
-    var tries = 0;
-    do {
-      x = randomBetween(4, 88);
-      y = randomBetween(10, 86);
-      tries++;
-      var inTitle = x > 30 && x < 70 && y > 34 && y < 66;
-    } while (inTitle && tries < 18);
-  }
+  var x, y, tries = 0;
+  do {
+    x = randomBetween(4, 88);
+    y = randomBetween(10, 86);
+    tries++;
+    var inTitle =
+      x > 30 && x < 70 && y > 34 && y < 66;
+  } while (inTitle && tries < 18);
   return { left: x + 'vw', top: y + 'vh' };
 }
 
@@ -64,49 +44,6 @@ function trimFloating(container) {
     var first = container.firstChild;
     if (first) first.remove();
   }
-}
-
-function clearContainer() {
-  var container = document.querySelector('.container');
-  if (!container) return;
-  container.innerHTML = '';
-}
-
-function startMobileOrbit() {
-  var container = document.querySelector('.container');
-  if (!container) return;
-
-  container.innerHTML = '';
-
-  var shell = document.createElement('div');
-  shell.className = 'mobile-orbit-shell';
-
-  var ring = document.createElement('div');
-  ring.className = 'mobile-orbit-ring';
-
-  var orbitLines = floatingLines.slice(1, 9);
-  while (orbitLines.length < 8) {
-    orbitLines.push(floatingLines[orbitLines.length % floatingLines.length]);
-  }
-
-  for (var i = 0; i < orbitLines.length; i++) {
-    var item = document.createElement('div');
-    var angle = (360 / orbitLines.length) * i;
-    var radius = i % 2 === 0 ? randomBetween(116, 150) : randomBetween(98, 132);
-    var depth = i % 3 === 0 ? randomBetween(12, 40) : randomBetween(-10, 18);
-
-    item.className = 'orbit-item';
-    item.textContent = orbitLines[i];
-    item.style.setProperty('--angle', angle + 'deg');
-    item.style.setProperty('--radius', radius + 'px');
-    item.style.setProperty('--depth', depth + 'px');
-    item.style.setProperty('--delay', i * 220 + 'ms');
-
-    ring.appendChild(item);
-  }
-
-  shell.appendChild(ring);
-  container.appendChild(shell);
 }
 
 function spawnFloatingLine() {
