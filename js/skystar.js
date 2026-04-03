@@ -41,14 +41,21 @@ function isMobileLayout() {
 }
 
 function pickPosition() {
-  var x, y, tries = 0;
-  do {
-    x = randomBetween(4, 88);
-    y = randomBetween(10, 86);
-    tries++;
-    var inTitle =
-      x > 30 && x < 70 && y > 34 && y < 66;
-  } while (inTitle && tries < 18);
+  var isMobile = getViewportWidth() <= 900;
+  var x, y;
+  
+  if (isMobile) {
+    x = randomBetween(15, 85);
+    y = randomBetween(38, 58);
+  } else {
+    var tries = 0;
+    do {
+      x = randomBetween(4, 88);
+      y = randomBetween(10, 86);
+      tries++;
+      var inTitle = x > 30 && x < 70 && y > 34 && y < 66;
+    } while (inTitle && tries < 18);
+  }
   return { left: x + 'vw', top: y + 'vh' };
 }
 
@@ -141,18 +148,9 @@ function startFloatingLoop() {
   schedule();
 }
 
-function bootLayout() {
-  clearContainer();
-
-  if (isMobileLayout()) {
-    startMobileOrbit();
-    return;
-  }
-
+window.addEventListener('load', function () {
   startFloatingLoop();
-}
-
-window.addEventListener('load', bootLayout);
+});
 
 var textone = document.querySelector('.textone').querySelector('h1');
 var texttwo = document.querySelector('.texttwo').querySelector('h1');

@@ -169,13 +169,6 @@ h1{
     }
     h1 {
         font-size: clamp(18px, 6.6vw, 30px);
-        padding: 0.65em 0.9em;
-        border-radius: 1.15em;
-        background: rgba(8, 12, 24, 0.38);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18), inset 0 0 0 1px rgba(255, 255, 255, 0.04);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
     }
     .textone {
         top: 48%;
@@ -188,7 +181,15 @@ h1{
         display: none;
     }
     .floating-line {
-        display: none;
+        max-width: min(70vw, 320px);
+        font-size: clamp(13px, 4vw, 18px);
+        opacity: 0;
+        transform: scale(0.92) translateY(8px);
+        transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .floating-line--show {
+        opacity: 0.96;
+        transform: scale(1) translateY(0);
     }
     #videofilm {
         width: 100%;
@@ -196,13 +197,6 @@ h1{
         object-fit: cover;
     }
     .mobile-orbit-shell {
-        width: min(100vw, 420px);
-        height: min(100vw, 420px);
-        top: 49%;
-    }
-    .orbit-item {
-        padding: 3px 8px;
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
+        display: none;
     }
 }
