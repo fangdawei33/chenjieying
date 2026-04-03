@@ -11,9 +11,7 @@ var words=[
     '与君重逢',
     '一日不见兮',
     '思之若狂',
-    '好想回到那个夏天',
-    '趴在桌子上偷偷看你',
-    '偷偷表白一个叫陈洁盈的女孩',
+    '偷偷表白一个叫-陈洁盈-的女孩',
     '你曾是我灰色人生中的一道彩虹',
     '柳絮空缱绻',
     '南风知不知',
@@ -79,18 +77,18 @@ function pickFloatingXY(isMobile, idx) {
             left: randomNum(4, 92) + 'vw'
         };
     }
-    // Mobile: deterministic anchors, always spread around edges.
+    // Mobile: deterministic anchors around edges, keep center clear.
     var anchors = [
-        { top: '8vh', left: '6vw' },   { top: '16vh', left: '8vw' },  { top: '26vh', left: '5vw' },
-        { top: '76vh', left: '7vw' },  { top: '86vh', left: '10vw' }, { top: '94vh', left: '6vw' },
-        { top: '10vh', left: '74vw' }, { top: '18vh', left: '79vw' }, { top: '28vh', left: '76vw' },
-        { top: '74vh', left: '75vw' }, { top: '84vh', left: '80vw' }, { top: '93vh', left: '77vw' },
-        { top: '4vh', left: '28vw' },  { top: '6vh', left: '44vw' },  { top: '8vh', left: '58vw' },
-        { top: '96vh', left: '27vw' }, { top: '94vh', left: '43vw' }, { top: '92vh', left: '57vw' },
-        { top: '34vh', left: '3vw' },  { top: '52vh', left: '4vw' },  { top: '68vh', left: '3vw' },
-        { top: '35vh', left: '84vw' }, { top: '52vh', left: '86vw' }, { top: '67vh', left: '84vw' },
-        { top: '12vh', left: '90vw' }, { top: '88vh', left: '90vw' }, { top: '12vh', left: '2vw' },
-        { top: '88vh', left: '2vw' }
+        { top: '10vh', left: '8vw' },  { top: '22vh', left: '9vw' },  { top: '34vh', left: '8vw' },
+        { top: '66vh', left: '8vw' },  { top: '78vh', left: '9vw' },  { top: '88vh', left: '8vw' },
+        { top: '10vh', left: '78vw' }, { top: '22vh', left: '80vw' }, { top: '34vh', left: '79vw' },
+        { top: '66vh', left: '79vw' }, { top: '78vh', left: '81vw' }, { top: '88vh', left: '79vw' },
+        { top: '6vh', left: '28vw' },  { top: '7vh', left: '44vw' },  { top: '6vh', left: '60vw' },
+        { top: '92vh', left: '28vw' }, { top: '91vh', left: '44vw' }, { top: '92vh', left: '60vw' },
+        { top: '14vh', left: '18vw' }, { top: '14vh', left: '68vw' }, { top: '84vh', left: '18vw' },
+        { top: '84vh', left: '68vw' }, { top: '28vh', left: '16vw' }, { top: '28vh', left: '70vw' },
+        { top: '72vh', left: '16vw' }, { top: '72vh', left: '70vw' }, { top: '40vh', left: '10vw' },
+        { top: '40vh', left: '76vw' }
     ];
     return anchors[idx % anchors.length];
 }
@@ -107,7 +105,7 @@ function init(){
         word.classList.add('word');
         word.style.color = '#BAABDA';
         word.style.fontFamily = '楷体';
-        word.style.fontSize = isMobile ? '12px' : '20px'
+        word.style.fontSize = isMobile ? '15px' : '20px'
         word_box.classList.add('word-box');
         var pos = pickFloatingXY(isMobile, idx);
         word_box.style.top = pos.top;

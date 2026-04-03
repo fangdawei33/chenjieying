@@ -109,8 +109,12 @@ h1{
     .textthree {
         top: 62%;
     }
-    .word {
-        opacity: 0.45;
+    .word-box .word {
+        writing-mode: vertical-rl;
+        text-orientation: upright;
+        white-space: normal;
+        letter-spacing: 1px;
+        opacity: 0.8;
     }
     #videofilm {
         width: 100%;
