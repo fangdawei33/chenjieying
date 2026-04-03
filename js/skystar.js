@@ -76,18 +76,19 @@ function init(){
     let container = document.querySelector('.container');
     let f = document.createDocumentFragment();
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
-    words.forEach(w=>{
+    const activeWords = isMobile ? words.slice(0, 28) : words;
+    activeWords.forEach(w=>{
     let word_box = document.createElement('div');
     let word = document.createElement('div');
         word.innerText = w;
         word.classList.add('word');
         word.style.color = '#BAABDA';
         word.style.fontFamily = '楷体';
-        word.style.fontSize = isMobile ? '14px' : '20px'
+        word.style.fontSize = isMobile ? '12px' : '20px'
         word_box.classList.add('word-box');
-        word_box.style.setProperty("--margin-top",(isMobile ? randomNum(-32,12) : randomNum(-40,20))+'vh');
-        word_box.style.setProperty("--margin-left",(isMobile ? randomNum(5,42) : randomNum(6,35))+'vw');
-        word_box.style.setProperty("--animation-duration",(isMobile ? randomNum(10,24) : randomNum(8,20))+'s');
+        word_box.style.setProperty("--margin-top",(isMobile ? randomNum(-20,8) : randomNum(-40,20))+'vh');
+        word_box.style.setProperty("--margin-left",(isMobile ? randomNum(8,32) : randomNum(6,35))+'vw');
+        word_box.style.setProperty("--animation-duration",(isMobile ? randomNum(14,26) : randomNum(8,20))+'s');
         word_box.style.setProperty("--animation-delay",randomNum(-20,0)+'s');
         
         word_box.appendChild(word);
