@@ -27,8 +27,17 @@ function nextFloatDelay() {
   return randomBetween(FLOAT_INTERVAL_MIN, FLOAT_INTERVAL_MAX);
 }
 
+function getViewportWidth() {
+  if (window.visualViewport && window.visualViewport.width) {
+    return window.visualViewport.width;
+  }
+  return window.innerWidth || document.documentElement.clientWidth || 0;
+}
+
 function isMobileLayout() {
-  return window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+  var viewportWidth = getViewportWidth();
+  var hasTouch = !!(navigator.maxTouchPoints && navigator.maxTouchPoints > 0);
+  return viewportWidth <= 900 || (hasTouch && viewportWidth <= 1280);
 }
 
 function pickPosition() {
@@ -50,9 +59,17 @@ function trimFloating(container) {
   }
 }
 
+function clearContainer() {
+  var container = document.querySelector('.container');
+  if (!container) return;
+  container.innerHTML = '';
+}
+
 function startMobileOrbit() {
   var container = document.querySelector('.container');
   if (!container) return;
+
+  container.innerHTML = '';
 
   var shell = document.createElement('div');
   shell.className = 'mobile-orbit-shell';
@@ -124,14 +141,18 @@ function startFloatingLoop() {
   schedule();
 }
 
-window.addEventListener('load', function () {
+function bootLayout() {
+  clearContainer();
+
   if (isMobileLayout()) {
     startMobileOrbit();
     return;
   }
 
   startFloatingLoop();
-});
+}
+
+window.addEventListener('load', bootLayout);
 
 var textone = document.querySelector('.textone').querySelector('h1');
 var texttwo = document.querySelector('.texttwo').querySelector('h1');
