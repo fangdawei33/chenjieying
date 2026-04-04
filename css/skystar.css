@@ -114,25 +114,26 @@ h1{
 .final-title h1 {
     color: #EAF7FF;
     text-shadow: 0 4px 16px rgba(0, 0, 0, 0.62);
+    white-space: nowrap;
 }
 
-.textone.final-title { top: 19%; }
-.texttwo.final-title { top: 33%; }
-.textthree.final-title { top: 47%; }
+.textone.final-title { top: 17%; }
+.texttwo.final-title { top: 37%; }
+.textthree.final-title { top: 58%; }
 
 .textone.final-title h1 {
-    font-size: clamp(34px, 5vw, 62px);
+    font-size: clamp(32px, 4.8vw, 56px);
 }
 
 .texttwo.final-title h1 {
-    font-size: clamp(40px, 6.6vw, 86px);
+    font-size: clamp(34px, 5.5vw, 66px);
     font-weight: 600;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.02em;
     line-height: 1.2;
 }
 
 .textthree.final-title h1 {
-    font-size: clamp(36px, 5.9vw, 76px);
+    font-size: clamp(32px, 5vw, 58px);
     font-weight: 600;
 }
 

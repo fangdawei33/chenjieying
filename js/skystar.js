@@ -48,6 +48,46 @@ var FINAL_TITLE_LINES = [
   '希望你考到自己理想的学校',
   '加油！'
 ];
+var bgmAudio = document.getElementById('bgm');
+var bgmUnlocked = false;
+
+function tryPlayBgm() {
+  if (!bgmAudio) return;
+  var playResult = bgmAudio.play();
+  if (playResult && typeof playResult.then === 'function') {
+    playResult.then(function () {
+      bgmUnlocked = true;
+    }).catch(function () {
+      // Autoplay may be blocked until first user gesture.
+    });
+  } else {
+    bgmUnlocked = true;
+  }
+}
+
+function unlockBgmOnGesture() {
+  if (bgmUnlocked) return;
+  tryPlayBgm();
+}
+
+function initBgm() {
+  if (!bgmAudio) return;
+
+  bgmAudio.volume = 0.8;
+  bgmAudio.preload = 'auto';
+  tryPlayBgm();
+
+  var gestureEvents = ['pointerdown', 'touchstart', 'click', 'keydown'];
+  gestureEvents.forEach(function (eventName) {
+    document.addEventListener(eventName, unlockBgmOnGesture, { passive: true });
+  });
+
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden && bgmAudio.paused) {
+      tryPlayBgm();
+    }
+  });
+}
 
 function randomBetween(min, max) {
   return Math.random() * (max - min) + min;
@@ -355,6 +395,7 @@ function startTimeline() {
 function bootTimelineOnce() {
   if (timelineStarted) return;
   timelineStarted = true;
+  initBgm();
   startTimeline();
 }
 
