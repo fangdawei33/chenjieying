@@ -49,7 +49,18 @@ var FINAL_TITLE_LINES = [
   '加油！'
 ];
 var bgmAudio = document.getElementById('bgm');
+var bgmUnlockBtn = document.getElementById('bgm-unlock');
 var bgmUnlocked = false;
+
+function showBgmUnlockBtn() {
+  if (!bgmUnlockBtn) return;
+  bgmUnlockBtn.classList.add('is-visible');
+}
+
+function hideBgmUnlockBtn() {
+  if (!bgmUnlockBtn) return;
+  bgmUnlockBtn.classList.remove('is-visible');
+}
 
 function tryPlayBgm() {
   if (!bgmAudio) return;
@@ -57,11 +68,14 @@ function tryPlayBgm() {
   if (playResult && typeof playResult.then === 'function') {
     playResult.then(function () {
       bgmUnlocked = true;
+      hideBgmUnlockBtn();
     }).catch(function () {
       // Autoplay may be blocked until first user gesture.
+      showBgmUnlockBtn();
     });
   } else {
     bgmUnlocked = true;
+    hideBgmUnlockBtn();
   }
 }
 
@@ -75,7 +89,14 @@ function initBgm() {
 
   bgmAudio.volume = 0.8;
   bgmAudio.preload = 'auto';
+  bgmAudio.muted = false;
   tryPlayBgm();
+
+  if (bgmUnlockBtn) {
+    bgmUnlockBtn.addEventListener('click', function () {
+      tryPlayBgm();
+    });
+  }
 
   var gestureEvents = ['pointerdown', 'touchstart', 'click', 'keydown'];
   gestureEvents.forEach(function (eventName) {
@@ -85,6 +106,17 @@ function initBgm() {
   document.addEventListener('visibilitychange', function () {
     if (!document.hidden && bgmAudio.paused) {
       tryPlayBgm();
+    }
+  });
+
+  bgmAudio.addEventListener('play', function () {
+    bgmUnlocked = true;
+    hideBgmUnlockBtn();
+  });
+
+  bgmAudio.addEventListener('pause', function () {
+    if (!document.hidden) {
+      showBgmUnlockBtn();
     }
   });
 }

@@ -119,7 +119,10 @@ h1{
 
 .textone.final-title { top: 16%; }
 .texttwo.final-title { top: 38%; }
-.textthree.final-title { top: 66%; }
+.textthree.final-title {
+    top: auto;
+    bottom: 10%;
+}
 
 .textone.final-title h1 {
     font-size: clamp(32px, 4.8vw, 56px);
@@ -135,6 +138,31 @@ h1{
 .textthree.final-title h1 {
     font-size: clamp(30px, 4.4vw, 50px);
     font-weight: 600;
+}
+
+#bgm-unlock {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    z-index: 4;
+    border: 1px solid rgba(255,255,255,0.42);
+    background: rgba(7, 17, 38, 0.62);
+    color: #f4fbff;
+    font-family: var(--cn-font-serif);
+    font-size: 14px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+#bgm-unlock.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
 }
 
 .stage-hidden {
@@ -209,7 +237,10 @@ h1{
     .textsix.poem-line { top: 76%; }
     .textone.final-title { top: 24%; }
     .texttwo.final-title { top: 37%; }
-    .textthree.final-title { top: 50%; }
+    .textthree.final-title {
+        top: auto;
+        bottom: 16%;
+    }
     .textone.final-title h1 {
         font-size: clamp(21px, 8.5vw, 36px);
     }
@@ -228,5 +259,11 @@ h1{
         width: 100%;
         height: 100%;
         object-fit: cover;
+    }
+    #bgm-unlock {
+        right: 12px;
+        bottom: 14px;
+        font-size: 13px;
+        padding: 7px 12px;
     }
 }
