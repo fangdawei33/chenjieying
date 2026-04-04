@@ -40,8 +40,7 @@ var POEM_LINES = [
   '那些熬过的夜，终会在清晨发光',
   '焦虑会散去，底气会慢慢长成翅膀',
   '愿你提笔从容，落笔有光',
-  '护考一路顺风，答案都写成希望',
-  '今晚先安心睡吧，星光会替你守望'
+  '护考一路顺风，答案都写成希望'
 ];
 var FINAL_TITLE_LINES = [
   '祝护考顺利',
@@ -142,7 +141,7 @@ function layoutFinalTitle() {
 
   var vh = window.innerHeight || document.documentElement.clientHeight || 800;
   var topStart = Math.round(vh * 0.14);
-  var gap = Math.max(26, Math.round(vh * 0.035));
+  var gap = Math.max(16, Math.round(vh * 0.02));
 
   textoneWrap.style.top = topStart + 'px';
   textoneWrap.style.bottom = 'auto';
