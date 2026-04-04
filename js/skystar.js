@@ -51,6 +51,7 @@ var FINAL_TITLE_LINES = [
 var bgmAudio = document.getElementById('bgm');
 var bgmUnlockBtn = document.getElementById('bgm-unlock');
 var bgmUnlocked = false;
+var finalTitleResizeBound = false;
 
 function showBgmUnlockBtn() {
   if (!bgmUnlockBtn) return;
@@ -74,8 +75,15 @@ function tryPlayBgm() {
       showBgmUnlockBtn();
     });
   } else {
-    bgmUnlocked = true;
-    hideBgmUnlockBtn();
+    window.setTimeout(function () {
+      if (!bgmAudio.paused) {
+        bgmUnlocked = true;
+        hideBgmUnlockBtn();
+      } else {
+        bgmUnlocked = false;
+        showBgmUnlockBtn();
+      }
+    }, 150);
   }
 }
 
@@ -90,6 +98,7 @@ function initBgm() {
   bgmAudio.volume = 0.8;
   bgmAudio.preload = 'auto';
   bgmAudio.muted = false;
+  bgmAudio.load();
   tryPlayBgm();
 
   if (bgmUnlockBtn) {
@@ -109,6 +118,12 @@ function initBgm() {
     }
   });
 
+  bgmAudio.addEventListener('canplay', function () {
+    if (bgmAudio.paused) {
+      tryPlayBgm();
+    }
+  });
+
   bgmAudio.addEventListener('play', function () {
     bgmUnlocked = true;
     hideBgmUnlockBtn();
@@ -117,6 +132,42 @@ function initBgm() {
   bgmAudio.addEventListener('pause', function () {
     if (!document.hidden) {
       showBgmUnlockBtn();
+    }
+  });
+}
+
+function layoutFinalTitle() {
+  if (!textoneWrap || !texttwoWrap || !textthreeWrap) return;
+  if (currentStage !== 'floating') return;
+
+  var vh = window.innerHeight || document.documentElement.clientHeight || 800;
+  var topStart = Math.round(vh * 0.14);
+  var gap = Math.max(26, Math.round(vh * 0.035));
+
+  textoneWrap.style.top = topStart + 'px';
+  textoneWrap.style.bottom = 'auto';
+
+  var oneHeight = textoneWrap.offsetHeight || 60;
+  var secondTop = topStart + oneHeight + gap;
+
+  texttwoWrap.style.top = secondTop + 'px';
+  texttwoWrap.style.bottom = 'auto';
+
+  var twoHeight = texttwoWrap.offsetHeight || 90;
+  var thirdTop = secondTop + twoHeight + gap;
+  var maxThirdTop = Math.round(vh * 0.82);
+  if (thirdTop > maxThirdTop) thirdTop = maxThirdTop;
+
+  textthreeWrap.style.top = thirdTop + 'px';
+  textthreeWrap.style.bottom = 'auto';
+}
+
+function bindFinalTitleResize() {
+  if (finalTitleResizeBound) return;
+  finalTitleResizeBound = true;
+  window.addEventListener('resize', function () {
+    if (currentStage === 'floating') {
+      layoutFinalTitle();
     }
   });
 }
@@ -311,6 +362,7 @@ function setFinalTitleMode(enabled) {
 function enterFinalFloatingStage() {
   setPoemMode(false);
   setFinalTitleMode(true);
+  bindFinalTitleResize();
 
   textone.innerHTML = FINAL_TITLE_LINES[0] || '';
   texttwo.innerHTML = FINAL_TITLE_LINES[1] || '';
@@ -331,6 +383,9 @@ function enterFinalFloatingStage() {
   });
 
   currentStage = 'floating';
+  window.requestAnimationFrame(function () {
+    layoutFinalTitle();
+  });
   startFloatingLoop();
 }
 

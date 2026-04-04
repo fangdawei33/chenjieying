@@ -120,8 +120,8 @@ h1{
 .textone.final-title { top: 16%; }
 .texttwo.final-title { top: 38%; }
 .textthree.final-title {
-    top: auto;
-    bottom: 10%;
+    top: 66%;
+    bottom: auto;
 }
 
 .textone.final-title h1 {
@@ -238,8 +238,8 @@ h1{
     .textone.final-title { top: 24%; }
     .texttwo.final-title { top: 37%; }
     .textthree.final-title {
-        top: auto;
-        bottom: 16%;
+        top: 56%;
+        bottom: auto;
     }
     .textone.final-title h1 {
         font-size: clamp(21px, 8.5vw, 36px);
